@@ -42,3 +42,13 @@ export function editItem(req,res){
   //edit item details
   return {};
 }
+
+export function getTransactionHistory(req,res){
+  //return all past transactions from database
+  return {};
+}
+
+export function deleteTransaction(req,res){
+  //delete specified transaction from database
+  return {};
+}
