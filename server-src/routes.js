@@ -27,7 +27,14 @@ router.post('/login',apiCtrl.login);
 
 router.post('/edit-item/:id',apiCtrl.editItem);
 
+router.post('/transaction-history',apiCtrl.getTransactionHistory);
+
+router.delete('/delete-transaction/:id',apiCtrl.deleteTransaction);
+
 router.delete('/delete-item/:id',api.deleteItem);
 
+// static files
+router.use('/css', express.static('public/css'));
+router.use('/js', express.static('public/js'));
 
-module.express = router;
+module.exports = router;

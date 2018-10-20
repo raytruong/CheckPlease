@@ -1,5 +1,4 @@
 const render = require('./render');
+const home = require('./home');
 
-module.exports = {
-  "render": render
-}
+module.exports = Object.assign(render, home);
