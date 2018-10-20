@@ -13,6 +13,11 @@ export function addStoreItem(req,res){
   return {};
 }
 
+export function getLogin(req,res){
+  //return login page;
+  return {};
+}
+
 export function deleteItem(req,res){
   //delete an item from the database
   return {};
@@ -20,5 +25,20 @@ export function deleteItem(req,res){
 
 export function checkout(req,res){
   //checkout with the items
+  return {};
+}
+
+export function login(req,res){
+  //check details and authenticate
+  return {};
+}
+
+export function getManage(req,res){
+  //return manage page
+  return {};
+}
+
+export function editItem(req,res){
+  //edit item details
   return {};
 }

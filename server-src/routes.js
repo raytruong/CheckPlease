@@ -13,12 +13,21 @@ router.get('/', pagesCtrl.home, pagesCtrl.render);
 // api
 router.get('/EXAMPLE-PATH', apiCtrl.EXAMPLEAPIFUNC);
 
-router.get('/store-items',apiCtrl.getStoreItems);
+router.get('/items',apiCtrl.getStoreItems);
+
+router.get('/login',apiCtrl.getLogin);
+
+router.get('/manage',apiCtrl.getManage);
 
 router.post('/new-item',apiCtrl.addStoreItem);
 
+router.post('/check-out',apiCtrl.checkout);
+
+router.post('/login',apiCtrl.login);
+
+router.post('/edit-item/:id',apiCtrl.editItem);
+
 router.delete('/delete-item/:id',api.deleteItem);
 
-router.post('/check-out',apiCtrl.checkout);
 
 module.express = router;
