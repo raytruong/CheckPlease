@@ -31,7 +31,7 @@ router.post('/transaction-history',apiCtrl.getTransactionHistory);
 
 router.delete('/delete-transaction/:id',apiCtrl.deleteTransaction);
 
-router.delete('/delete-item/:id',api.deleteItem);
+router.delete('/delete-item/:id',apiCtrl.deleteItem);
 
 // static files
 router.use('/css', express.static('public/css'));
