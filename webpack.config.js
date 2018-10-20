@@ -10,7 +10,7 @@ let server = {
   target: 'node',
   module: {
     rules: [
-      { test: /\.js$/, exclude: /node_modules/, use: { loader: 'babel-loader' } },
+      { test: /\.js$/, exclude: path.resolve(__dirname, '/node_modules/'), use: { loader: 'babel-loader' } },
       { test: /\.css$/, use: { loader: 'css-loader' } }
     ]
   }

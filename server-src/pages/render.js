@@ -6,19 +6,19 @@ const html = ({body, title}) => {
     <!DOCTYPE html>
     <html>
       <head>
-        <title>{title}</title>
+        <title>${title}</title>
 
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
         <link href="/css/style.css" type="text/css" rel="stylesheet">
 
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
       </head>
 
       <body>
-        ${body}
+        <div class="app">${body}</div>
 
-        <script type="text/javascript" src="/js/bundle.js">
+        <script type="text/javascript" src="/js/bundle.js"></script>
       </body>
     </html>
   `;

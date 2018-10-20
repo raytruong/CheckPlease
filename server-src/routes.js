@@ -35,6 +35,7 @@ router.delete('/delete-item/:id',apiCtrl.deleteItem);
 
 // static files
 router.use('/css', express.static('public/css'));
+router.use('/images', express.static('public/images'));
 router.use('/js', express.static('public/js'));
 
 module.exports = router;
