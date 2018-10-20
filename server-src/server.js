@@ -6,5 +6,5 @@ app.use('/', routes);
 
 const port = 8080;
 app.listen(port, () => {
-  console.log(`serving on port ${port});
+  console.log(`serving on port ${port}`);
 });
