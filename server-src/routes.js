@@ -13,4 +13,12 @@ router.get('/', pagesCtrl.home, pagesCtrl.render);
 // api
 router.get('/EXAMPLE-PATH', apiCtrl.EXAMPLEAPIFUNC);
 
+router.get('/store-items',apiCtrl.getStoreItems);
+
+router.post('/new-item',apiCtrl.addStoreItem);
+
+router.delete('/delete-item/:id',api.deleteItem);
+
+router.post('/check-out',apiCtrl.checkout);
+
 module.express = router;
