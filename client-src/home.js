@@ -127,6 +127,10 @@ class Receipt extends React.Component {
     return (
       <div className="card">
         <div className="card-body">
+          <div className="row dark align-items-center">
+            <div className="col-xl-2 col-3"><b>Ct</b></div>
+            <div className="col-xl-10 col-9"><b>Item Name</b></div>
+          </div>
           {receiptItemsHtml}
           <div id="fixed" className="row align-items-center">
             <div className="col-12">
@@ -240,6 +244,11 @@ class ButtonSection extends React.Component {
               <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#addItemModal">
                 Add Item
               </button>
+
+              <a href="/transactions"><button type="button" className="btn btn-primary ml-3">
+                Transaction Log
+              </button></a>
+
 
               <div className="modal fade" id="addItemModal" tabIndex="-1" role="dialog" aria-labelledby="addItemModalLabel" aria-hidden="true">
                 <div className="modal-dialog" role="document">

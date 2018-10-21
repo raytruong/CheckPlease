@@ -91,7 +91,17 @@ let editItem = function editItem(req, res) {
 
 let getTransactionHistory = function getTransactionHistory(req, res) {
   //return all past transactions from database
-  return {};
+  let db = connectToDb();
+  db.once('open', () => {
+    schemaCtrl.transaction.find({}, function (err, transactions) {
+      if (err) {
+        res.status(500).send({ message: "Error getting transactions" });
+      }
+      else {
+        res.send(transactions);
+      }
+    });
+  });
 }
 
 let deleteTransaction = function deleteTransaction(req, res) {
