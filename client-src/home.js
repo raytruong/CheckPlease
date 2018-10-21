@@ -15,7 +15,7 @@ class Item extends React.Component {
 class ItemPicture extends React.Component {
   render() {
     return (
-      <img src={"/images/"+this.props.image+".jpg"} style={{width: "100px", height: "100px"}}></img>
+      <img src={"/images/"+this.props.image+".jpg"}></img>
     );
   }
 }
@@ -42,7 +42,7 @@ class Items extends React.Component {
     let items = [];
     for(let i = 0; i < this.props.items.length; i++) {
       items.push(
-        <div key={"col-"+i} className="col-3" onClick={this.addToReceipt.bind(this, this.props.items[i])}>
+        <div key={"col-"+i} className="col-lg-3 col-md-4 col-sm-6" onClick={this.addToReceipt.bind(this, this.props.items[i])}>
           <Item key={"item-"+i} name={this.props.items[i].name} image={this.props.items[i].image}/>
         </div>
       );
@@ -75,7 +75,9 @@ class Items extends React.Component {
     return (
       <div className="card">
         <div className="card-body">
-          {rows}
+          <div className="row">
+            {items}
+          </div>
         </div>
       </div>
     );
