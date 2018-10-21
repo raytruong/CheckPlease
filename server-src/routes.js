@@ -19,6 +19,8 @@ router.get('/login',apiCtrl.getLogin);
 
 router.get('/manage',apiCtrl.getManage);
 
+router.get('/transaction-history',apiCtrl.getTransactionHistory);
+
 router.post('/new-item',apiCtrl.addStoreItem);
 
 router.post('/check-out',apiCtrl.checkout);
@@ -26,8 +28,6 @@ router.post('/check-out',apiCtrl.checkout);
 router.post('/login',apiCtrl.login);
 
 router.post('/edit-item/:id',apiCtrl.editItem);
-
-router.post('/transaction-history',apiCtrl.getTransactionHistory);
 
 router.delete('/delete-transaction/:id',apiCtrl.deleteTransaction);
 
