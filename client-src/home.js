@@ -15,7 +15,7 @@ class Item extends React.Component {
 class ItemPicture extends React.Component {
   render() {
     return (
-      <img src={"/images/"+this.props.image+".jpg"}></img>
+      <img src={"/images/"+this.props.image}></img>
     );
   }
 }
@@ -42,7 +42,7 @@ class Items extends React.Component {
     for(let i = 0; i < this.props.items.length; i++) {
       items.push(
         <div key={"col-"+i} className="col-lg-3 col-md-4 col-sm-6" onClick={this.addToReceipt.bind(this, this.props.items[i])}>
-          <Item key={"item-"+i} name={this.props.items[i].name} image={this.props.items[i].image}/>
+          <Item key={"item-"+i} name={this.props.items[i].name} image={this.props.items[i].img === undefined ? "default.jpg" : this.props.items[i].img}/>
         </div>
       );
     }
@@ -136,21 +136,157 @@ class Receipt extends React.Component {
   }
 }
 
+class ButtonSection extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      name: "",
+      price: ""
+    }
+
+    this.handleNameChange = this.handleNameChange.bind(this);
+    this.handlePriceChange = this.handlePriceChange.bind(this);
+    this.addItem = this.addItem.bind(this);
+    this.checkout = this.checkout.bind(this);
+  }
+
+  handleNameChange(event) {
+    this.setState({
+      name: event.target.value
+    });
+  }
+
+  handlePriceChange(event) {
+    this.setState({
+      price: event.target.value
+    });
+  }
+
+  addItem(name, price) {
+    let itemToAdd = {
+      name: this.state.name,
+      price: this.state.price
+    }
+
+    console.log(itemToAdd);
+    fetch("/new-item", {
+      method: "POST",
+      body: JSON.stringify(itemToAdd),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    }).then(res => res.json())
+    .then((res) => {
+      console.log(res);
+    });
+  }
+
+  checkout() {
+    let subtotal = 0;
+    let checkoutItems = [];
+    for(let i = 0; i < receiptItems.length; i++) {
+      if(receiptItems[i].quantity !== 0) {
+        subtotal += receiptItems[i].item.price * receiptItems[i].quantity;
+        checkoutItems.push({
+          name: receiptItems[i].item.name,
+          price: receiptItems[i].item.price,
+          quantity: receiptItems[i].quantity
+        });
+      }
+    }
+
+    let taxRate = .07;
+    let tax = taxRate * subtotal;
+    let total = subtotal + tax;
+
+    let checkoutInfo = {
+      items: checkoutItems,
+      subtotal: subtotal,
+      tax: tax,
+      total: total
+    };
+
+    console.log(checkoutInfo);
+
+    for(let i = 0; i < receiptItems.length; i++) {
+      receiptItems[i].quantity = 0;
+    }
+
+    ReactDOM.render(
+      <Receipt items={receiptItems}/>, document.getElementById("receiptContainer")
+    );
+  }
+
+  render() {
+    return (
+      <div className="row justify-content-center mt-3">
+        <div className="col-8">
+          <div className="row justify-content-center">
+              <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#addItemModal">
+                Add Item
+              </button>
+
+              <div className="modal fade" id="addItemModal" tabIndex="-1" role="dialog" aria-labelledby="addItemModalLabel" aria-hidden="true">
+                <div className="modal-dialog" role="document">
+                  <div className="modal-content">
+                    <div className="modal-header">
+                      <h5 className="modal-title" id="addItemModalLabel">Add Item</h5>
+                      <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div className="modal-body">
+                      <label htmlFor="nameInput">Item Name</label>
+                      <input type="text" className="form-control" id="nameInput" placeholder="Orange Chicken" value={this.state.name} onChange={this.handleNameChange} required></input>
+
+                      <br/>
+                      <label htmlFor="priceInput">Price</label>
+                      <div className="input-group">
+                        <div className="input-group-prepend">
+                          <span className="input-group-text" id="pricePrepend">$</span>
+                        </div>
+                        <input type="text" className="form-control" id="priceInput" value={this.state.price} onChange={this.handlePriceChange} placeholder="5" aria-describedby="pricePrepend" required></input>
+                      </div>
+                    </div>
+                    <div className="modal-footer">
+                      <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                      <button type="button" className="btn btn-primary" onClick={this.addItem} disabled={this.state.name === "" || this.state.price === "" || isNaN(this.state.price)} data-dismiss="modal">Add Item</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+          </div>
+        </div>
+
+        <div className="col-4">
+          <div className="row justify-content-center">
+            <button className="btn btn-primary" onClick={this.checkout}>Checkout</button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
+
 let dbItems = [
   {
     name: 'test 1',
-    image: 'test1',
-    id: '1'
+    img: 'test1.jpg',
+    id: '1',
+    price: 1
   },
   {
     name: 'test 2',
-    image: 'test2',
-    id: '2'
+    img: 'test2.jpg',
+    id: '2',
+    price: 2
   },
   {
     name: 'test 3',
-    image: 'test3',
-    id: '3'
+    img: 'test3.jpg',
+    id: '3',
+    price: 3
   },
   {
     name: 'test 4',
@@ -245,4 +381,7 @@ ReactDOM.render(
 );
 ReactDOM.render(
   <Receipt items={receiptItems}/>, document.getElementById('receiptContainer')
+);
+ReactDOM.render(
+  <ButtonSection/>, document.getElementById('buttonsContainer')
 );
