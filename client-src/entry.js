@@ -1,1 +1,1 @@
-require('./home');
+import home from './home';

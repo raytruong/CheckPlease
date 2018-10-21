@@ -169,7 +169,6 @@ class ButtonSection extends React.Component {
       price: this.state.price
     }
 
-    console.log(itemToAdd);
     fetch("/new-item", {
       method: "POST",
       body: JSON.stringify(itemToAdd),

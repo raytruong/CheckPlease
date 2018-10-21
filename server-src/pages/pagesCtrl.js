@@ -1,4 +1,9 @@
-const render = require('./render');
-const home = require('./home');
+import render from './render';
+import home from './home';
 
-module.exports = Object.assign(render, home);
+let pagesCtrl = {
+  render: render,
+  home: home
+}
+
+export default pagesCtrl;

@@ -1,4 +1,3 @@
-const react = require('react');
 import { renderToString } from 'react-dom/server';
 
 const html = ({body, title}) => {
@@ -28,7 +27,7 @@ const html = ({body, title}) => {
   `;
 };
 
-function render(req, res, next) {
+export default function render(req, res, next) {
   const body = renderToString(res.locals.content);
   const title = res.locals.title;
 
@@ -36,8 +35,4 @@ function render(req, res, next) {
     html({ body, title })
   );
   res.end();
-}
-
-module.exports = {
-  render: render
 }

@@ -1,71 +1,86 @@
-let models = require('../mongo/models/schemas.js'); //import the schema library
-let transaction = models.transactions;
-let item = models.items;
-let addon = models.addons;
+import mongoose from 'mongoose';
+import schemaCtrl from '../mongo/models/schema';
 
-const mongoose = require('mongoose');
-mongoose.connect('localhost:27017/data');
+function connectToDb() {
+  mongoose.connect("mongodb://admin:admin@cluster0-shard-00-00-ipvsp.gcp.mongodb.net:27017,cluster0-shard-00-01-ipvsp.gcp.mongodb.net:27017,cluster0-shard-00-02-ipvsp.gcp.mongodb.net:27017/wcg?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true", { useNewUrlParser: true });
+  let db = mongoose.connection;
+  db.on('error', console.error.bind(console, 'connection error:'));
+  return db;
+}
 
-export function getStoreItems(req,res){
+let getStoreItems = function getStoreItems(req,res){
   //return list of items from database
   return {};
 }
 
-export function addStoreItem(req, res) {
-  //add store items to the database;
-  newItem = new item({
-    name: req.body.name,
-    price: req.body.price,
-    addons: []
-  })
-  if (newItem.save().hasWriteError()) {
-    res.status(500).send({message: 'Unsuccessful request to add item'});
-  }
-  else {
-    res.status(200).send({message: 'Sucessfully added item to the database'});
-  }
+let addStoreItem = function addStoreItem(req, res) {
+  let db = connectToDb();
+
+  db.once('open', () => {
+    let newItem = new schemaCtrl.item({
+      name: req.body.name,
+      price: req.body.price,
+      addons: []
+    });
+
+    newItem.save(function (err, newItem) {
+      if (err) return res.status(500).send({message: 'could not add new item'});
+      else res.status(200).send({message: 'successfully added item to the database'});
+    });
+  });
 }
 
-export function getLogin(req,res){
+let getLogin = function getLogin(req,res){
   //return login page;
   return {};
 }
 
-export function deleteItem(req,res){
+let deleteItem = function deleteItem(req,res){
   //delete an item from the database
   return {};
 }
 
-export function checkout(req,res){
+let checkout = function checkout(req,res){
   //checkout with the items
   return {};
 }
 
-export function login(req,res){
+let login = function login(req,res){
   //check details and authenticate
   return {};
 }
 
-export function getManage(req,res){
+let getManage = function getManage(req,res){
   //return manage page
   return {};
 }
 
-export function editItem(req,res){
+let editItem = function editItem(req,res){
   //edit item details
   return {};
 }
 
-export function getTransactionHistory(req,res){
+let getTransactionHistory = function getTransactionHistory(req,res){
   //return all past transactions from database
   return {};
 }
 
-export function deleteTransaction(req,res){
+let deleteTransaction = function deleteTransaction(req,res){
   //delete specified transaction from database
   return {};
 }
 
-function exitMongo(){
-  mongoose.disconnect();
+let apiCtrl = {
+  getStoreItems: getStoreItems,
+  addStoreItem: addStoreItem,
+  getLogin: getLogin,
+  deleteItem: deleteItem,
+  checkout: checkout,
+  login: login,
+  getManage: getManage,
+  editItem: editItem,
+  getTransactionHistory: getTransactionHistory,
+  deleteTransaction: deleteTransaction
 }
+
+export default apiCtrl;

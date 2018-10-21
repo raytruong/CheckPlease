@@ -1,11 +1,8 @@
-const express = require('express');
+import express from 'express';
 const app = express();
-const mongoose = require('mongoose');
-const routes = require('./routes');
+import router from './routes';
 
-mongoose.connect('localhost:27017/data');
-
-app.use('/', routes);
+app.use('/', router);
 
 const port = 8080;
 app.listen(port, () => {
