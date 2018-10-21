@@ -177,7 +177,11 @@ class ButtonSection extends React.Component {
       }
     }).then(res => res.json())
     .then((res) => {
-      console.log(res.message);
+      fetchItems();
+      this.setState({
+        name: "",
+        price: ""
+      });
     });
   }
 
@@ -197,6 +201,7 @@ class ButtonSection extends React.Component {
 
     let taxRate = .07;
     let tax = taxRate * subtotal;
+    tax = Math.round(tax * 100) / 100
     let total = subtotal + tax;
 
     let checkoutInfo = {
@@ -205,8 +210,6 @@ class ButtonSection extends React.Component {
       tax: tax,
       total: total
     };
-
-    console.log(checkoutInfo);
 
     for(let i = 0; i < receiptItems.length; i++) {
       receiptItems[i].quantity = 0;
@@ -269,23 +272,29 @@ class ButtonSection extends React.Component {
 }
 
 let receiptItems = [];
-fetch("/items")
-  .then(res => res.json())
-  .then((json) => {
-    for(let i = 0; i < json.items.length; i++) {
-      receiptItems.push(
-        {
-          quantity: 0,
-          item: json.items[i]
-        }
+function fetchItems() {
+  fetch("/items")
+    .then(res => res.json())
+    .then((json) => {
+      for(let i = 0; i < json.length; i++) {
+        receiptItems.push(
+          {
+            quantity: 0,
+            item: json[i]
+          }
+        );
+      }
+
+      ReactDOM.render(
+        <Items items={json}/>, document.getElementById('itemsContainer')
       );
-    }
+    });
+}
 
-    ReactDOM.render(
-      <Items items={json.items}/>, document.getElementById('itemsContainer')
-    );
-  });
-
+fetchItems();
+ReactDOM.render(
+  <Items items={[]}/>, document.getElementById('itemsContainer')
+);
 ReactDOM.render(
   <Receipt items={receiptItems}/>, document.getElementById('receiptContainer')
 );
