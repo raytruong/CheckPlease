@@ -177,7 +177,7 @@ class ButtonSection extends React.Component {
       }
     }).then(res => res.json())
     .then((res) => {
-      console.log(res);
+      console.log(res.message);
     });
   }
 
@@ -268,116 +268,25 @@ class ButtonSection extends React.Component {
   }
 }
 
-let dbItems = [
-  {
-    name: 'test 1',
-    img: 'test1.jpg',
-    id: '1',
-    price: 1
-  },
-  {
-    name: 'test 2',
-    img: 'test2.jpg',
-    id: '2',
-    price: 2
-  },
-  {
-    name: 'test 3',
-    img: 'test3.jpg',
-    id: '3',
-    price: 3
-  },
-  {
-    name: 'test 4',
-    image: 'test3',
-  },
-  {
-    name: 'test 5',
-    image: 'test3',
-  },
-  {
-    name: 'test 3',
-    image: 'test3',
-  },
-  {
-    name: 'test 3',
-    image: 'test3',
-  },
-  {
-    name: 'test 3',
-    image: 'test3',
-  },
-  {
-    name: 'test 3',
-    image: 'test3',
-  },
-  {
-    name: 'test 3',
-    image: 'test3',
-  },
-  {
-    name: 'test 3',
-    image: 'test3',
-  },
-  {
-    name: 'test 3',
-    image: 'test3',
-  },
-  {
-    name: 'test 3',
-    image: 'test3',
-  },
-  {
-    name: 'test 3',
-    image: 'test3',
-  },
-  {
-    name: 'test 3',
-    image: 'test3',
-  },
-  {
-    name: 'test 3',
-    image: 'test3',
-  },
-  {
-    name: 'test 3',
-    image: 'test3',
-  },
-  {
-    name: 'test 3',
-    image: 'test3',
-  },
-  {
-    name: 'test 3',
-    image: 'test3',
-  },
-  {
-    name: 'test 3',
-    image: 'test3',
-  },
-  {
-    name: 'test 3',
-    image: 'test3',
-  },
-  {
-    name: 'test 3',
-    image: 'test3',
-  }
-]
-
 let receiptItems = [];
-for(let i = 0; i < dbItems.length; i++) {
-  receiptItems.push(
-    {
-      quantity: 0,
-      item: dbItems[i]
+fetch("/items")
+  .then(res => res.JSON())
+  .then((json) => {
+    console.log(json);
+    for(let i = 0; i < json.length; i++) {
+      receiptItems.push(
+        {
+          quantity: 0,
+          item: json[i]
+        }
+      );
     }
-  );
-}
 
-ReactDOM.render(
-  <Items items={dbItems}/>, document.getElementById('itemsContainer')
-);
+    ReactDOM.render(
+      <Items items={json}/>, document.getElementById('itemsContainer')
+    );
+  });
+
 ReactDOM.render(
   <Receipt items={receiptItems}/>, document.getElementById('receiptContainer')
 );

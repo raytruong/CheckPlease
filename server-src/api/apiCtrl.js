@@ -17,6 +17,7 @@ let getStoreItems = function getStoreItems(req,res){
         return {message: "Error getting items"};
       }
       else{
+        console.log("hit");
         return items;
       }
     });
