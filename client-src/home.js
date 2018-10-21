@@ -286,7 +286,7 @@ class ButtonSection extends React.Component {
 
         <div className="col-4">
           <div className="row justify-content-center">
-            <button className="btn btn-primary" onClick={this.checkout}>Checkout</button>
+            <button className="btn btn-success" onClick={this.checkout}>Checkout</button>
           </div>
         </div>
       </div>

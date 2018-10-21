@@ -1,9 +1,9 @@
 import mongoose from 'mongoose';
 import schemaCtrl from '../mongo/models/schema';
-
+import url from './config';
 
 function connectToDb() {
-  mongoose.connect("mongodb://admin:admin@cluster0-shard-00-00-ipvsp.gcp.mongodb.net:27017,cluster0-shard-00-01-ipvsp.gcp.mongodb.net:27017,cluster0-shard-00-02-ipvsp.gcp.mongodb.net:27017/wcg?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true", { useNewUrlParser: true });
+  mongoose.connect(url, { useNewUrlParser: true });
   let db = mongoose.connection;
   db.on('error', console.error.bind(console, 'connection error:'));
   return db;
