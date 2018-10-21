@@ -25,9 +25,7 @@ class TransactionHistoryPage extends React.Component {
             </div>
           </div> 
         </div>
-        <div className="row justify-content-center mt-3">
-          <a href="/"><button className="btn btn-primary">Home Page</button></a>
-        </div>
+        <div id="buttonsContainer"></div>
       </div>
     );
    }

@@ -46,12 +46,17 @@ class Transaction extends React.Component {
   }
 
   addToReceipt(transaction) {
+    currentTransaction = transaction;
+
     let receiptItems = [];
     for(let i = 0; i < transaction.items.length; i++) {
       receiptItems.push(transaction.items[i]);
     }
     ReactDOM.render(
       <Receipt items={receiptItems}/>, document.getElementById("receiptContainer")
+    );
+    ReactDOM.render(
+      <ButtonSection disabled={false}/>, document.getElementById("buttonsContainer")
     );
   }
 
@@ -96,6 +101,59 @@ class Transactions extends React.Component {
   }
 }
 
+class ButtonSection extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      disabled: true
+    }
+
+    this.deleteTransaction = this.deleteTransaction.bind(this);
+  }
+  
+  componentDidUpdate(prevProps, prevState) {
+    if(prevState.disabled !== this.props.disabled) {
+      this.setState({
+        disabled: this.props.disabled
+      });
+    }
+  }
+
+  deleteTransaction(transaction) {
+    fetch('/delete-transaction/'+transaction._id, {
+      method: 'DELETE'
+    }).then(res => res.json())
+    .then(json => {
+      fetchTransactions();
+      let receiptItems = [];
+      ReactDOM.render(
+        <Receipt items={receiptItems}/>, document.getElementById("receiptContainer")
+      );
+      ReactDOM.render(
+        <ButtonSection disabled={true}/>, document.getElementById("buttonsContainer")
+      );
+    });
+  }
+
+  render() {
+    return (
+      <div className="row justify-content-center mt-3">
+        <div className="col-8">
+          <div className="row justify-content-center">
+            <a href="/"><button className="btn btn-primary">Home Page</button></a>
+          </div>
+        </div>
+        <div className="col-4">
+          <div className="row justify-content-center">
+            <button onClick={this.deleteTransaction.bind(this, currentTransaction)} type="button" className="btn btn-danger" disabled={this.state.disabled}>Delete Transaction</button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
+
 function fetchTransactions() {
   let transactions = [];
   fetch("/transaction-history")
@@ -111,10 +169,15 @@ function fetchTransactions() {
     });
 }
 
+let currentTransaction;
+
 fetchTransactions();
 ReactDOM.render(
   <Transactions transactions={[]}/>, document.getElementById('transactionsContainer')
 );
 ReactDOM.render(
   <Receipt items={[]}/>, document.getElementById('receiptContainer')
+);
+ReactDOM.render(
+  <ButtonSection disabled={true}/>, document.getElementById('buttonsContainer')
 );
