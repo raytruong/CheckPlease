@@ -6,7 +6,7 @@ class Item extends React.Component {
     return (
       <div>
         <ItemPicture image={this.props.image}/>
-        <h5>{this.props.name}</h5>
+        <h5 className="mt-1">{this.props.name}</h5>
       </div>
     );
   }

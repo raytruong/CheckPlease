@@ -21,6 +21,7 @@
 #itemsContainer img {
   height: 110px;
   width: 110px;
+  border-radius: .25rem;
 }
 
 #receiptContainer {
@@ -111,4 +112,5 @@
 #manageContainer img {
   height: 110px;
   width: 110px;
+  border-radius: .25rem;
 }
