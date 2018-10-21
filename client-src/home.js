@@ -270,20 +270,19 @@ class ButtonSection extends React.Component {
 
 let receiptItems = [];
 fetch("/items")
-  .then(res => res.JSON())
+  .then(res => res.json())
   .then((json) => {
-    console.log(json);
-    for(let i = 0; i < json.length; i++) {
+    for(let i = 0; i < json.items.length; i++) {
       receiptItems.push(
         {
           quantity: 0,
-          item: json[i]
+          item: json.items[i]
         }
       );
     }
 
     ReactDOM.render(
-      <Items items={json}/>, document.getElementById('itemsContainer')
+      <Items items={json.items}/>, document.getElementById('itemsContainer')
     );
   });
 

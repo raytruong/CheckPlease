@@ -17,7 +17,7 @@ let getStoreItems = function getStoreItems(req,res){
         res.status(500).send({message: "Error getting items"});
       }
       else{
-        res.send({array: items});
+        res.send({items});
       }
     });
   });
