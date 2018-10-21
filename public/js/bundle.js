@@ -93,7 +93,7 @@
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("if (window.location.pathname === \"/\") __webpack_require__(/*! ./home */ \"./client-src/home.js\");\nif (window.location.pathname === \"/transactions\") __webpack_require__(/*! ./transactionHistory */ \"./client-src/transactionHistory.js\");\n\n//# sourceURL=webpack:///./client-src/entry.js?");
+eval("if (window.location.pathname === \"/\") __webpack_require__(/*! ./home */ \"./client-src/home.js\");\nif (window.location.pathname === \"/transactions\") __webpack_require__(/*! ./transactionHistory */ \"./client-src/transactionHistory.js\");\nfetch('delete-transaction/5bcc38e5fe8d40884754c853', {\n  method: 'DELETE'\n}).then(function (res) {\n  return res.json();\n}).then(function (response) {\n  return console.log('Success:', JSON.stringify(response));\n});\n\n//# sourceURL=webpack:///./client-src/entry.js?");
 
 /***/ }),
 

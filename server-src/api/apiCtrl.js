@@ -25,8 +25,8 @@ let getStoreItems = function getStoreItems(req, res) {
 }
 
 let addStoreItem = function addStoreItem(req, res) {
+  //add item to database
   let db = connectToDb();
-
   db.once('open', () => {
     let newItem = new schemaCtrl.item({
       name: req.body.name,
@@ -41,18 +41,20 @@ let addStoreItem = function addStoreItem(req, res) {
   });
 }
 
-let getLogin = function getLogin(req, res) {
-  //return login page;
-  return {};
-}
-
 let deleteItem = function deleteItem(req, res) {
   //delete an item from the database
-  let i = req.params.id;
-  let arr = req.body.array;
-  for (let x = 0; x < arr.length; x++) {
-    schemaCtrl.item.remove({ _id: `${arr[x]._id}` });
-  }
+  let db = connectToDb();
+  db.once('open', () => {
+    let id = req.params.id;
+    schemaCtrl.item.deleteOne({ _id: id }, function (err) {
+      if (err) {
+        res.status(500).send({ message: "Error deleting item" });
+      }
+      else {
+        res.status(200).send({ message: "Successfully deleted item" });
+      }
+    });
+  });
 }
 
 let checkout = function checkout(req, res) {
@@ -74,19 +76,23 @@ let checkout = function checkout(req, res) {
   });
 }
 
-let login = function login(req, res) {
-  //check details and authenticate
-  return {};
-}
-
-let getManage = function getManage(req, res) {
-  //return manage page
-  return {};
-}
-
 let editItem = function editItem(req, res) {
   //edit item details
-  return {};
+  let db = connectToDb();
+  db.once('open', () => {
+    let id = req.params.id;
+    schemaCtrl.item.findById(id, function(err, item) {
+      if (err) res.status(500).send({ message: "Error updating item" });
+      else {
+        item.name = req.body.name;
+        item.price = req.body.price;
+        item.save(function (err) {
+          if (err) res.status(500).send({ message: "Error updating item" });
+          res.status(200).send({ message: "Successfully updated item" });
+        });
+      }
+    });
+  });
 }
 
 let getTransactionHistory = function getTransactionHistory(req, res) {
@@ -106,17 +112,25 @@ let getTransactionHistory = function getTransactionHistory(req, res) {
 
 let deleteTransaction = function deleteTransaction(req, res) {
   //delete specified transaction from database
-  return {};
+  let db = connectToDb();
+  db.once('open', () => {
+    let id = req.params.id;
+    schemaCtrl.transaction.deleteOne({ _id: id }, function (err) {
+      if (err) {
+        res.status(500).send({ message: "Error deleting transaction" });
+      }
+      else {
+        res.status(200).send({ message: "Successfully deleted transaction" });
+      }
+    });
+  });
 }
 
 let apiCtrl = {
   getStoreItems: getStoreItems,
   addStoreItem: addStoreItem,
-  getLogin: getLogin,
   deleteItem: deleteItem,
   checkout: checkout,
-  login: login,
-  getManage: getManage,
   editItem: editItem,
   getTransactionHistory: getTransactionHistory,
   deleteTransaction: deleteTransaction
