@@ -10,14 +10,16 @@ function connectToDb() {
 
 let getStoreItems = function getStoreItems(req,res){
   //return list of items from database
-  let items = mongoose.model('items',ItemSchema);
-  items.find({},function(err,items){
-    if(err){
-      return {};
-    }
-    else{
-      return res.send(items);
-    }
+  let db = connectToDb();
+  db.once('open', () => {
+    schemaCtrl.item.find({},function(err,items){
+      if(err){
+        return {message: "Error getting items"};
+      }
+      else{
+        return items;
+      }
+    });
   });
 }
 
