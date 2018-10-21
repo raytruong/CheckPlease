@@ -56,7 +56,13 @@ let deleteItem = function deleteItem(req,res){
 
 let checkout = function checkout(req,res){
   //checkout with the items
-  return {};
+  let arr = req.body.array;
+  let array = [];
+  for(let x = 0; x < arr.length;x++){
+    let item = {price: arr[x].price, quantity: arr[x].quantity};
+    array.push(item);
+  }
+  res.send(array);
 }
 
 let login = function login(req,res){
