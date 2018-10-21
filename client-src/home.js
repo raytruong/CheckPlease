@@ -27,7 +27,6 @@ class Items extends React.Component {
   }
 
   addToReceipt(item) {
-    console.log(receiptItems);
     for(let i = 0; i < receiptItems.length; i++) {
       if(receiptItems[i].item.id === item.id) {
         receiptItems[i].quantity = receiptItems[i].quantity + 1;
@@ -85,12 +84,29 @@ class Items extends React.Component {
 }
 
 class ReceiptItem extends React.Component {
+  constructor(props) {
+    super(props);
+    this.deleteReceiptItem = this.deleteReceiptItem.bind(this);
+  }
+
+  deleteReceiptItem(item) {
+    for(let i = 0; i < receiptItems.length; i++) {
+      if(receiptItems[i].item.id === item.id) {
+        receiptItems[i].quantity = 0;
+      }
+    }
+
+    ReactDOM.render(
+      <Receipt items={receiptItems}/>, document.getElementById('receiptContainer')
+    );
+  }
+
   render() {
     return (
       <div className={this.props.darkRow ? "row dark align-items-center" : "row align-items-center"}>
-        <div className="col-2">{this.props.quantity}</div>
-        <div className="col-8">{this.props.item.name}</div>
-        <div className="col-2">{this.props.price}</div>
+        <div className="col-xl-2 col-3">{this.props.quantity}</div>
+        <div className="col-xl-8 col-7">{this.props.item.name}</div>
+        <div className="col-2"><i onClick={this.deleteReceiptItem.bind(this, this.props.item)} className="fa fa-trash" aria-hidden="true"></i></div>
       </div>
     );
   }

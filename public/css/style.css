@@ -1,10 +1,10 @@
 .app {
   margin: 10vh auto 0 auto;
-  width: 80%;
+  width: 90%;
 }
 
 #itemsContainer {
-  width: 90%;
+  width: 100%;
 }
 
 #itemsContainer .card {
@@ -14,13 +14,17 @@
   text-align: center;
 }
 
+#itemsContainer div[class^="col-"] {
+  cursor: pointer;
+}
+
 #itemsContainer img {
   height: 110px;
   width: 110px;
 }
 
 #receiptContainer {
-  width: 100%;
+  width: 90%;
 }
 
 #receiptContainer .card {
@@ -43,4 +47,8 @@
   height: 3rem;
   margin: 0;
   background-color: #ddd;
+}
+
+#receiptContainer i {
+  cursor: pointer;
 }
