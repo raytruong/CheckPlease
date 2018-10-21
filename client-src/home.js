@@ -206,6 +206,8 @@ class ButtonSection extends React.Component {
       }
     }
 
+    if(checkoutItems.length === 0) return;
+
     let taxRate = .07;
     let tax = taxRate * subtotal;
     tax = Math.round(tax * 100) / 100
