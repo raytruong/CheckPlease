@@ -41,7 +41,7 @@ class Items extends React.Component {
     let items = [];
     for(let i = 0; i < this.props.items.length; i++) {
       items.push(
-        <div key={"col-"+i} className="col-lg-3 col-md-4 col-sm-6" onClick={this.addToReceipt.bind(this, this.props.items[i])}>
+        <div key={"col-"+i} className="col-lg-3 col-md-4 col-sm-6 mb-4" onClick={this.addToReceipt.bind(this, this.props.items[i])}>
           <Item key={"item-"+i} name={this.props.items[i].name} image={this.props.items[i].img === undefined ? "default.jpg" : this.props.items[i].img}/>
         </div>
       );
@@ -101,7 +101,7 @@ class Receipt extends React.Component {
     for(let i = 0; i < receiptItems.length; i++) {
         subtotal += receiptItems[i].item.price * receiptItems[i].quantity;
     }
-    let tax = Math.round(.07 * subtotal * 100) / 100;
+    let tax = Math.trunc((Math.round(.07 * subtotal * 100) / 100) * 100) / 100;
     let total = tax + subtotal;
 
     if(total !== prevState.total) {
@@ -128,7 +128,7 @@ class Receipt extends React.Component {
       <div className="card">
         <div className="card-body">
           <div className="row dark align-items-center">
-            <div className="col-xl-2 col-3"><b>Ct</b></div>
+            <div className="col-xl-2 col-3"><b>#</b></div>
             <div className="col-xl-10 col-9"><b>Item Name</b></div>
           </div>
           {receiptItemsHtml}
@@ -147,49 +147,7 @@ class ButtonSection extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      name: "",
-      price: ""
-    }
-
-    this.handleNameChange = this.handleNameChange.bind(this);
-    this.handlePriceChange = this.handlePriceChange.bind(this);
-    this.addItem = this.addItem.bind(this);
     this.checkout = this.checkout.bind(this);
-  }
-
-  handleNameChange(event) {
-    this.setState({
-      name: event.target.value
-    });
-  }
-
-  handlePriceChange(event) {
-    this.setState({
-      price: event.target.value
-    });
-  }
-
-  addItem(name, price) {
-    let itemToAdd = {
-      name: this.state.name,
-      price: this.state.price
-    }
-
-    fetch("/new-item", {
-      method: "POST",
-      body: JSON.stringify(itemToAdd),
-      headers: {
-        "Content-Type": "application/json"
-      }
-    }).then(res => res.json())
-    .then((res) => {
-      fetchItems();
-      this.setState({
-        name: "",
-        price: ""
-      });
-    });
   }
 
   checkout() {
@@ -208,9 +166,7 @@ class ButtonSection extends React.Component {
 
     if(checkoutItems.length === 0) return;
 
-    let taxRate = .07;
-    let tax = taxRate * subtotal;
-    tax = Math.round(tax * 100) / 100
+    let tax = Math.trunc((Math.round(.07 * subtotal * 100) / 100) * 100) / 100;
     let total = subtotal + tax;
 
     let checkoutInfo = {
@@ -243,44 +199,13 @@ class ButtonSection extends React.Component {
       <div className="row justify-content-center mt-3">
         <div className="col-8">
           <div className="row justify-content-center">
-              <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#addItemModal">
-                Add Item
-              </button>
+              <a href="/manage"><button type="button" className="btn btn-primary">
+                Manage Items
+              </button></a>
 
               <a href="/transactions"><button type="button" className="btn btn-primary ml-3">
                 Transaction Log
               </button></a>
-
-
-              <div className="modal fade" id="addItemModal" tabIndex="-1" role="dialog" aria-labelledby="addItemModalLabel" aria-hidden="true">
-                <div className="modal-dialog" role="document">
-                  <div className="modal-content">
-                    <div className="modal-header">
-                      <h5 className="modal-title" id="addItemModalLabel">Add Item</h5>
-                      <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                      </button>
-                    </div>
-                    <div className="modal-body">
-                      <label htmlFor="nameInput">Item Name</label>
-                      <input type="text" className="form-control" id="nameInput" placeholder="Orange Chicken" value={this.state.name} onChange={this.handleNameChange} required></input>
-
-                      <br/>
-                      <label htmlFor="priceInput">Price</label>
-                      <div className="input-group">
-                        <div className="input-group-prepend">
-                          <span className="input-group-text" id="pricePrepend">$</span>
-                        </div>
-                        <input type="text" className="form-control" id="priceInput" value={this.state.price} onChange={this.handlePriceChange} placeholder="5" aria-describedby="pricePrepend" required></input>
-                      </div>
-                    </div>
-                    <div className="modal-footer">
-                      <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                      <button type="button" className="btn btn-primary" onClick={this.addItem} disabled={this.state.name === "" || this.state.price === "" || isNaN(this.state.price)} data-dismiss="modal">Add Item</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
           </div>
         </div>
 

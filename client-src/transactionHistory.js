@@ -29,7 +29,7 @@ class Receipt extends React.Component {
       <div className="card">
         <div className="card-body">
           <div className="row dark align-items-center">
-            <div className="col-xl-2 col-3"><b>Ct</b></div>
+            <div className="col-xl-2 col-3"><b>#</b></div>
             <div className="col-xl-10 col-9"><b>Item Name</b></div>
           </div>
           {receiptItemsHtml}

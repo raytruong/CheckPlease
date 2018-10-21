@@ -12,6 +12,7 @@ import apiCtrl from './api/apiCtrl';
 // pages
 router.get('/', pagesCtrl.home, pagesCtrl.render);
 router.get('/transactions', pagesCtrl.transactionHistory, pagesCtrl.render);
+router.get('/manage', pagesCtrl.manage, pagesCtrl.render);
 
 // api
 router.get('/items',apiCtrl.getStoreItems);
