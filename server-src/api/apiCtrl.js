@@ -69,7 +69,7 @@ let checkout = function checkout(req, res) {
       total: arr.total
     });
 
-    newItem.save(function (err, newTransaction) {
+    newTransaction.save(function (err, newTransaction) {
       if (err) return res.status(500).send({ message: 'could not proceed to transaction' });
       else res.status(200).send({ message: 'successfully checked out' });
     });
