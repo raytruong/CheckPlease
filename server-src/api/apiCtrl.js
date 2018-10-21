@@ -14,10 +14,10 @@ let getStoreItems = function getStoreItems(req,res){
   db.once('open', () => {
     schemaCtrl.item.find({},function(err,items){
       if(err){
-        return {message: "Error getting items"};
+        res.status(500).send({message: "Error getting items"});
       }
       else{
-        return items;
+        res.send(items);
       }
     });
   });
@@ -48,8 +48,10 @@ let getLogin = function getLogin(req,res){
 let deleteItem = function deleteItem(req,res){
   //delete an item from the database
   let i = req.params.id;
-
-  return {};
+  let arr = req.body.array;
+  for(let x = 0; x < arr.length;x++){
+    schemaCtrl.item.remove({_id:`${arr[x]._id}`});
+  }
 }
 
 let checkout = function checkout(req,res){
