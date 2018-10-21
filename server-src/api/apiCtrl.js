@@ -10,7 +10,15 @@ function connectToDb() {
 
 let getStoreItems = function getStoreItems(req,res){
   //return list of items from database
-  return {};
+  let items = mongoose.model('items',ItemSchema);
+  items.find({},function(err,items){
+    if(err){
+      return {};
+    }
+    else{
+      return res.send(items);
+    }
+  });
 }
 
 let addStoreItem = function addStoreItem(req, res) {
@@ -37,6 +45,8 @@ let getLogin = function getLogin(req,res){
 
 let deleteItem = function deleteItem(req,res){
   //delete an item from the database
+  let i = req.params.id;
+
   return {};
 }
 
