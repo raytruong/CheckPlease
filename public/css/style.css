@@ -43,6 +43,16 @@
   background-color: #fff;
 }
 
+#receiptContainer .row#fixed {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 3rem;
+  margin: 0;
+  text-align: center;
+  background-color: #ddd;
+}
+
 #receiptContainer .row.dark {
   height: 3rem;
   margin: 0;

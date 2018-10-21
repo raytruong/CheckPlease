@@ -57,16 +57,14 @@ let deleteItem = function deleteItem(req, res) {
 
 let checkout = function checkout(req, res) {
   //checkout with the items
-  let arr = req.body.array;
-  let d = new Date();
+  let db = connectToDb();
 
   db.once('open', () => {
     let newTransaction = new schemaCtrl.transaction({
-      items: arr.item,
-      date: d,
-      tax: arr.tax,
-      subtotal: arr.subtotal,
-      total: arr.total
+      items: req.body.items,
+      tax: req.body.tax,
+      subtotal: req.body.subtotal,
+      total: req.body.total
     });
 
     newTransaction.save(function (err, newTransaction) {

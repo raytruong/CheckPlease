@@ -28,7 +28,7 @@ class Items extends React.Component {
 
   addToReceipt(item) {
     for(let i = 0; i < receiptItems.length; i++) {
-      if(receiptItems[i].item.id === item.id) {
+      if(receiptItems[i].item._id === item._id) {
         receiptItems[i].quantity = receiptItems[i].quantity + 1;
       }
     }
@@ -43,30 +43,6 @@ class Items extends React.Component {
       items.push(
         <div key={"col-"+i} className="col-lg-3 col-md-4 col-sm-6" onClick={this.addToReceipt.bind(this, this.props.items[i])}>
           <Item key={"item-"+i} name={this.props.items[i].name} image={this.props.items[i].img === undefined ? "default.jpg" : this.props.items[i].img}/>
-        </div>
-      );
-    }
-
-    let rows = [];
-    let numberOfRows = Math.floor(items.length / 4);
-    let numberOfExtra = items.length % 4;
-    for(let i = 0; i < numberOfRows; i++) {
-      rows.push(
-        <div key={"row-"+i} className="row">
-          {items[4*i+0]}
-          {items[4*i+1]}
-          {items[4*i+2]}
-          {items[4*i+3]}
-        </div>
-      );
-    }
-    if(numberOfExtra !== 0) {
-      rows.push(
-        <div key={"row-"+numberOfRows} className="row">
-          {items[4*numberOfRows+0]}
-          {numberOfExtra > 1 && items[4*numberOfRows+1]}
-          {numberOfExtra > 2 && items[4*numberOfRows+2]}
-          {numberOfExtra > 3 && items[4*numberOfRows+3]}
         </div>
       );
     }
@@ -91,7 +67,7 @@ class ReceiptItem extends React.Component {
 
   deleteReceiptItem(item) {
     for(let i = 0; i < receiptItems.length; i++) {
-      if(receiptItems[i].item.id === item.id) {
+      if(receiptItems[i].item._id === item._id) {
         receiptItems[i].quantity = 0;
       }
     }
@@ -113,6 +89,28 @@ class ReceiptItem extends React.Component {
 }
 
 class Receipt extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      total: 0
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    let subtotal = 0;
+    for(let i = 0; i < receiptItems.length; i++) {
+        subtotal += receiptItems[i].item.price * receiptItems[i].quantity;
+    }
+    let tax = Math.round(.07 * subtotal * 100) / 100;
+    let total = tax + subtotal;
+
+    if(total !== prevState.total) {
+      this.setState({
+        total: total
+      }); 
+    }
+  }
+
   render() {
     let receiptItemsHtml = [];
 
@@ -130,6 +128,11 @@ class Receipt extends React.Component {
       <div className="card">
         <div className="card-body">
           {receiptItemsHtml}
+          <div id="fixed" className="row align-items-center">
+            <div className="col-12">
+              <h5>Total: {this.state.total}</h5>
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -211,13 +214,22 @@ class ButtonSection extends React.Component {
       total: total
     };
 
-    for(let i = 0; i < receiptItems.length; i++) {
-      receiptItems[i].quantity = 0;
-    }
+    fetch("/check-out", {
+      method: "POST",
+      body: JSON.stringify(checkoutInfo),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(res => res.json())
+    .then((json) => {
+      for(let i = 0; i < receiptItems.length; i++) {
+        receiptItems[i].quantity = 0;
+      }
 
-    ReactDOM.render(
-      <Receipt items={receiptItems}/>, document.getElementById("receiptContainer")
-    );
+      ReactDOM.render(
+        <Receipt items={receiptItems}/>, document.getElementById("receiptContainer")
+      );
+    });
   }
 
   render() {
