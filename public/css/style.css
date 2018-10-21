@@ -4,11 +4,38 @@
 }
 
 #itemsContainer {
-  width: 100%;
+  width: 90%;
 }
 
 #itemsContainer .card {
   width: 100%;
   height: 75vh;
   overflow: scroll;
+  text-align: center;
+}
+
+#receiptContainer {
+  width: 100%;
+}
+
+#receiptContainer .card {
+  width: 100%;
+  height: 75vh;
+  overflow: scroll;
+}
+
+#receiptContainer .card-body {
+  padding: 0;
+}
+
+#receiptContainer .row {
+  height: 3rem;
+  margin: 0;
+  background-color: #fff;
+}
+
+#receiptContainer .row.dark {
+  height: 3rem;
+  margin: 0;
+  background-color: #ddd;
 }
