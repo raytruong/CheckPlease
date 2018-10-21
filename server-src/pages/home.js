@@ -13,10 +13,6 @@ class HomePage extends React.Component {
             <div className="row justify-content-center">
               <div id="itemsContainer"></div>
             </div>
-
-            <div className="row justify-content-center">
-              <button className="btn btn-primary mt-2">Manage</button>
-            </div>
           </div>
 
           <div className="col-4">
@@ -27,12 +23,10 @@ class HomePage extends React.Component {
             <div className="row justify-content-center">
               <div id="receiptContainer"></div>
             </div>
-
-            <div className="row justify-content-center">
-              <button className="btn btn-primary mt-2">Checkout</button>
-            </div>
-          </div>
+          </div> 
         </div>
+        
+        <div id="buttonsContainer"></div>
       </div>
     );
    }
