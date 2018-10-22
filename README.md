@@ -1,1 +1,1 @@
-PoS system for a restaurant.
+This is a PoS system continuation of Py-PoS. It's goal is provide a robust back-end API for a restaurant to maximize staff efficiency. It will be integrated in a larger ecosystem that will be deployed in a high-speed kitchen setting, allowing staff to take orders through an in-house web application and integrated with a feature rich backend to generate order queues and table tracking. Built with React, Node.js, MongoDB, and Google Cloud.
